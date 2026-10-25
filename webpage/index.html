@@ -82,46 +82,35 @@
         </div>
         <div class="secondary-content">
             <div class="sidebar">
-                <div class="servers">
-                    <h3 class="servers-title">AVAILABLE SERVERS</h3>
-                    <div class="server-grid">
-                        <button class="server-card" id="server1" onclick="changeServer(1)">
-                            <div class="server-info">
-                                <span class="server-name">Rakan</span>
-                                <span class="server-label">Generally better quality.</span>
-                            </div>
-                        </button>
-                        <button class="server-card" id="server2" onclick="changeServer(2)">
-                            <div class="server-info">
-                                <span class="server-name">Bard</span>
-                                <span class="server-label">Recommended for recently released movies.</span>
-                            </div>
-                        </button>
-                        <button class="server-card" id="server3" onclick="changeServer(3)">
-                            <div class="server-info">
-                                <span class="server-name">Xayah</span>
-                                <span class="server-label">Recommended for recently released movies.</span>
-                            </div>
-                        </button>
-                        <button class="server-card" id="server4" onclick="changeServer(4)">
-                            <div class="server-info">
-                                <span class="server-name">Ekko</span>
-                                <span class="server-label">May have 4k movies. Generally better quality.</span>
-                            </div>
-                        </button>
-                        <button class="server-card" id="server5" onclick="changeServer(5)">
-                            <div class="server-info">
-                                <span class="server-name">Naafiri</span>
-                                <span class="server-label">May have 4k movies. Generally better quality.</span>
-                            </div>
-                        </button>
-                        <button class="server-card" id="server6" onclick="changeServer(6)">
-                            <div class="server-info">
-                                <span class="server-name">Ryze</span>
-                                <span class="server-label">Generally better quality.</span>
-                            </div>
-                        </button>
-                    </div>
+
+<div class="servers">
+    <div class="server-menu-wrapper">
+        <button
+            id="serverMenuButton"
+            class="server-menu-button"
+            type="button"
+            aria-expanded="false"
+            onclick="toggleServerMenu()">
+            <span>▶</span> Available Servers <span>▾</span>
+        </button>
+
+        <div id="serverMenu" class="server-menu">
+            <button type="button" onclick="selectServer(1)">Rakan</button>
+            <button type="button" onclick="selectServer(2)">Bard</button>
+            <button type="button" onclick="selectServer(3)">Xayah</button>
+            <button type="button" onclick="selectServer(4)">Ekko</button>
+            <button type="button" onclick="selectServer(5)">Naafiri</button>
+            <button type="button" onclick="selectServer(6)">Ryze</button>
+            <div class="server-menu-divider"></div>
+            <button type="button" onclick="selectServer('auto')">⚡ Auto</button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
                 </div>
             </div>
         </div>
