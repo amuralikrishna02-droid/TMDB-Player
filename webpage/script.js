@@ -1,7 +1,8 @@
+
 // Define the elements
 const iframe = document.getElementById('videoFrame');
 const title = document.getElementById('title');
-const server_buttons = document.querySelectorAll('.server-grid button');
+const server_buttons = document.querySelectorAll('#server1, #server2, #server3, #server4, #server5, #server6');
 const nextEpButton = document.getElementById('nextep-button');
 const epSelectButton = document.querySelector('.epselect-button');
 const popoverContainer = document.querySelector('.popover-container');
@@ -18,20 +19,21 @@ const reviewList = document.querySelector('.review-list');
 
 // Define headers for TMDB API requests
 const headers = {
-        'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYTk1NzRmZDcxMjRkNmI5ZTUyNjA4ZWEzNWQ2NzdiNCIsIm5iZiI6MTczNzU5MDQ2NC4zMjUsInN1YiI6IjY3OTE4NmMwZThiNjdmZjgzM2ZhNjM4OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.kWqK74FSN41PZO7_ENZelydTtX0u2g6dCkAW0vFs4jU`,
-        'accept': 'application/json'
-    };
+    'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYTk1NzRmZDcxMjRkNmI5ZTUyNjA4ZWEzNWQ2NzdiNCIsIm5iZiI6MTczNzU5MDQ2NC4zMjUsInN1YiI6IjY3OTE4NmMwZThiNjdmZjgzM2ZhNjM4OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.kWqK74FSN41PZO7_ENZelydTtX0u2g6dCkAW0vFs4jU`,
+    'accept': 'application/json'
+};
 
 // Define Servers
 const serverUrlResolvers = {
-    //1: (p) => p.type === 'movie' ? `https://vidsrc.cc/v2/embed/movie/${p.id}?autoPlay=false` : `https://vidsrc.cc/v2/embed/tv/${p.id}/${p.season}/${p.episode}?autoPlay=false`, //Rakan (vidsrc.cc)
-    1: (p) => p.type === 'movie' ? `https://vixsrc.to/movie/${p.id}?autoPlay=true&lang=en` : `https://vixsrc.to/tv/${p.id}/${p.season}/${p.episode}?autoPlay=true&lang=en`, // Rakan (vixsrc.to)
-    2: (p) => p.type === 'movie' ? `https://moviesapi.to/movie/${p.id}` : `https://moviesapi.to/tv/${p.id}-${p.season}-${p.episode}`, // Bard
-    3: (p) => p.type === 'movie' ? `https://vidsrc-embed.ru/embed/movie?tmdb=${p.id}&autoplay=1` : `https://vidsrc-embed.ru/embed/tv?tmdb=${p.id}&season=${p.season}&episode=${p.episode}&autoplay=1`, // Xayah
-    4: (p) => p.type === 'movie' ? `https://cinesrc.st/embed/movie/${p.id}?autoPlay=true` : `https://cinesrc.st/embed/tv/${p.id}?s=${p.season}&e=${p.episode}&autoPlay=true`, // Ekko
-    5: (p) => p.type === 'movie' ? `https://vidfast.vc/movie/${p.id}?autoPlay=true` : `https://vidfast.vc/tv/${p.id}/${p.season}/${p.episode}?autoPlay=true`, // Naafiri
-    6: (p) => p.type === 'movie' ? `https://vidlink.pro/movie/${p.id}?title=true&poster=true&autoplay=true` : `https://vidlink.pro/tv/${p.id}/${p.season}/${p.episode}?title=true&poster=true&autoplay=true&nextbutton=true` // Ryze
+    //1: (p) => p.type === 'movie' ? `https://vidsrc.cc/v2/embed/movie/${p.id}?autoPlay=false` : `https://vidsrc.cc/v2/embed/tv/${p.id}/${p.season}/${p.episode}?autoPlay=false`,
+    1: (p) => p.type === 'movie' ? `https://vixsrc.to/movie/${p.id}?autoPlay=true&lang=en` : `https://vixsrc.to/tv/${p.id}/${p.season}/${p.episode}?autoPlay=true&lang=en`,
+    2: (p) => p.type === 'movie' ? `https://moviesapi.to/movie/${p.id}` : `https://moviesapi.to/tv/${p.id}-${p.season}-${p.episode}`,
+    3: (p) => p.type === 'movie' ? `https://vidsrc-embed.ru/embed/movie?tmdb=${p.id}&autoplay=1` : `https://vidsrc-embed.ru/embed/tv?tmdb=${p.id}&season=${p.season}&episode=${p.episode}&autoplay=1`,
+    4: (p) => p.type === 'movie' ? `https://cinesrc.st/embed/movie/${p.id}?autoPlay=true` : `https://cinesrc.st/embed/tv/${p.id}?s=${p.season}&e=${p.episode}&autoPlay=true`,
+    5: (p) => p.type === 'movie' ? `https://vidfast.vc/movie/${p.id}?autoPlay=true` : `https://vidfast.vc/tv/${p.id}/${p.season}/${p.episode}?autoPlay=true`,
+    6: (p) => p.type === 'movie' ? `https://vidlink.pro/movie/${p.id}?title=true&poster=true&autoplay=true` : `https://vidlink.pro/tv/${p.id}/${p.season}/${p.episode}?title=true&poster=true&autoplay=true&nextbutton=true`
 };
+
 function getServerURL(serverNumber, params) {
     const f = serverUrlResolvers[serverNumber];
     return f ? f(params) : '';
@@ -42,6 +44,7 @@ const reviewSites = {
     movie: ['imdb', 'letterboxd', 'rottentomatoes', 'metacritic', 'trakt', 'tmdb'],
     tv: ['imdb', 'rottentomatoes', 'serializd', 'metacritic', 'trakt', 'tmdb']
 };
+
 const reviewSiteInfo = {
     imdb: { name: 'IMDb', icon: './icons/sites/imdb.jpg' },
     letterboxd: { name: 'Letterboxd', icon: './icons/sites/letterboxd.png' },
@@ -51,11 +54,12 @@ const reviewSiteInfo = {
     trakt: { name: 'Trakt', icon: './icons/sites/trakt.png' },
     tmdb: { name: 'TMDB', icon: './icons/sites/themoviedb.png' }
 };
+
 // Wikidata properties holding the page path of sites without TMDB/IMDb ID based URLs
 const wikidataProperties = {
-    rottentomatoes: 'P1258', // e.g. "m/matrix", "tv/breaking_bad"
-    metacritic: 'P1712', // e.g. "movie/the-matrix", "tv/breaking-bad"
-    trakt: 'P8013' // e.g. "movies/the-matrix-1999", "shows/breaking-bad"
+    rottentomatoes: 'P1258',
+    metacritic: 'P1712',
+    trakt: 'P8013'
 };
 
 // Utility Functions
@@ -63,11 +67,10 @@ function getURLParams() {
     const params = new URLSearchParams(window.location.search);
     const type = params.get('type');
     const id = params.get('id');
-    const server = params.get('server'); // Get the optional server parameter
+    const server = params.get('server');
 
     const result = {};
 
-    // Add server to the result if it exists
     if (server) {
         result.server = server;
     }
@@ -81,35 +84,68 @@ function getURLParams() {
         result.season = params.get('s');
         result.episode = params.get('e');
     } else {
-        return null; // Return null if required parameters are missing
+        return null;
     }
 
     return result;
 }
 
 function getSelectedServerButtonId() {
-    // Loop through the buttons to find the one with the 'selected' class
     for (const button of server_buttons) {
         if (button.classList.contains('selected')) {
             const id = button.id.replace('server', '');
-            return parseInt(id, 10); // Convert the extracted string to a number
+            return parseInt(id, 10);
         }
     }
-
-    return null; // Return null if no button is selected
+    return null;
 }
 
 function changeServer(serverNumber) {
     const params = getURLParams();
     if (!params) return;
 
-    iframe.src = '';
     const src = getServerURL(serverNumber, params);
+    if (!src) return;
+
     iframe.src = src;
 
-    // Highlight the selected server button
     server_buttons.forEach(button => button.classList.remove('selected'));
-    document.getElementById(`server${serverNumber}`).classList.add('selected');
+    const selectedButton = document.getElementById(`server${serverNumber}`);
+    if (selectedButton) {
+        selectedButton.classList.add('selected');
+    }
+}
+
+// Floating server menu controls
+function toggleServerMenu() {
+    const menu = document.getElementById('serverMenu');
+    const button = document.getElementById('serverMenuButton');
+    if (!menu || !button) return;
+
+    const isOpen = menu.classList.toggle('show');
+    button.setAttribute('aria-expanded', String(isOpen));
+}
+
+function selectServer(server) {
+    const menu = document.getElementById('serverMenu');
+    const button = document.getElementById('serverMenuButton');
+
+    if (server === 'auto') {
+        enableAutoServer();
+    } else {
+        window.autoServerEnabled = false;
+        changeServer(Number(server));
+    }
+
+    if (menu) menu.classList.remove('show');
+    if (button) button.setAttribute('aria-expanded', 'false');
+}
+
+// Auto is a placeholder: embedded players do not reliably expose playback errors.
+function enableAutoServer() {
+    window.autoServerEnabled = true;
+    console.log('Auto mode enabled; automatic failover is not implemented yet.');
+    changeServer(1);
 }
 
 async function fetchTMDBData(params) {
@@ -121,9 +157,8 @@ async function fetchTMDBData(params) {
         if (params.type === 'movie') {
             url = `https://api.themoviedb.org/3/movie/${params.id}?language=en-US&append_to_response=external_ids`;
             const response = await fetch(url, { method: 'GET', headers: headers });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+            if (!response.ok) throw new Error('Network response was not ok');
+
             const data = await response.json();
             result['title'] = data.original_title;
             result.searchTitle = data.title;
@@ -131,9 +166,8 @@ async function fetchTMDBData(params) {
         } else if (params.type === 'tv') {
             url = `https://api.themoviedb.org/3/tv/${params.id}?language=en-US&append_to_response=external_ids`;
             const response = await fetch(url, { method: 'GET', headers: headers });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+            if (!response.ok) throw new Error('Network response was not ok');
+
             const data = await response.json();
             result.title = data.name;
             result.searchTitle = data.name;
@@ -142,10 +176,10 @@ async function fetchTMDBData(params) {
             result.seasonIds = {};
             const seasons = data.seasons;
             result.seasons = [];
+
             for (const season of seasons) {
                 result[season.season_number] = season.episode_count;
                 result.seasonIds[season.season_number] = season.id;
-                // Exclude Season 0 (Specials) from the list
                 if (season.season_number !== 0) {
                     result.seasons.push(season.season_number);
                 }
@@ -153,24 +187,27 @@ async function fetchTMDBData(params) {
         } else {
             throw new Error('Invalid type specified');
         }
+
         return result;
     } catch (error) {
         console.error('Error fetching data:', error);
-        throw error; // Re-throw the error if you want the caller to handle it
+        throw error;
     }
 }
 
-function getNextEp(currentSeason, currentEpisode, tmdbData) {
-    const currentSeasonEps = tmdbData[currentSeason];
-    if (currentEpisode < currentSeasonEps) {
-        return [parseInt(currentSeason), parseInt(currentEpisode) + 1];
-    }
-    const nextSeasonEps = tmdbData[parseInt(currentSeason) + 1];
-    if (nextSeasonEps !== undefined) {
-        return [parseInt(currentSeason) + 1, 1];
-    }
-    return [null, null];
-}
+// function getNextEp(currentSeason, currentEpisode, tmdbData) {
+//     const currentSeasonEps = tmdbData[currentSeason];
+//     if (currentEpisode < currentSeasonEps) {
+//         return [parseInt(currentSeason), parseInt(currentEpisode) + 1];
+//     }
+
+//     const nextSeasonEps = tmdbData[parseInt(currentSeason) + 1];
+//     if (nextSeasonEps !== undefined) {
+//         return [parseInt(currentSeason) + 1, 1];
+//     }
+
+//     return [null, null];
+// }
 
 // Fetch TV show episodes data from TMDB API
 async function fetchEpSelectionData(params, tmdbData) {
@@ -180,9 +217,8 @@ async function fetchEpSelectionData(params, tmdbData) {
     for (const season of tmdbData.seasons) {
         url = `https://api.themoviedb.org/3/tv/${params.id}/season/${season}?language=en-US`;
         const response = await fetch(url, { method: 'GET', headers: headers });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
+
         const seasonData = await response.json();
 
         result[season] = {};
@@ -205,7 +241,6 @@ async function fetchEpSelectionData(params, tmdbData) {
     return result;
 }
 
-// Episode Selection Popover show: seasons list
 function showSeasons(tvShowTitle) {
     seasonsList.style.display = 'block';
     episodesList.style.display = 'none';
@@ -214,7 +249,6 @@ function showSeasons(tvShowTitle) {
     popoverListContainer.scrollTop = 0;
 }
 
-// Episode Selection Popover show: episodes list
 function showEpisodes(seasonName) {
     seasonsList.style.display = 'none';
     episodesList.style.display = 'block';
@@ -223,12 +257,9 @@ function showEpisodes(seasonName) {
     popoverListContainer.scrollTop = 0;
 }
 
-// Load Popover container with seasons and episodes 
 async function loadPopoverSelectEpisode(params, tmdbData) {
-    // Get episode data
     const epSelectionData = await fetchEpSelectionData(params, tmdbData);
 
-    // Populate seasons list
     seasonsList.innerHTML = tmdbData.seasons.map(season => `
         <li data-season="${season}">
             <div class="season-name">${epSelectionData[season].name}</div>
@@ -236,7 +267,6 @@ async function loadPopoverSelectEpisode(params, tmdbData) {
         </li>
     `).join('');
 
-    // Handle season click
     seasonsList.addEventListener('click', (e) => {
         const li = e.target.closest('li');
         if (li) {
@@ -252,7 +282,6 @@ async function loadPopoverSelectEpisode(params, tmdbData) {
         }
     });
 
-    // Handle episode click
     episodesList.addEventListener('click', (e) => {
         const li = e.target.closest('li');
         if (li) {
@@ -268,23 +297,20 @@ async function loadPopoverSelectEpisode(params, tmdbData) {
     showSeasons(tmdbData.title);
 }
 
-// Fetch TV episode name and IMDb ID from TMDB API
 async function fetchEpisodeData(params) {
     const url = `https://api.themoviedb.org/3/tv/${params.id}/season/${params.season}/episode/${params.episode}?language=en-US&append_to_response=external_ids`;
     const response = await fetch(url, { method: 'GET', headers: headers });
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
+    if (!response.ok) throw new Error('Network response was not ok');
+
     const data = await response.json();
     return { name: data.name, imdbId: data.external_ids && data.external_ids.imdb_id };
 }
 
-// Metacritic episode slug, e.g. "...And the Bag's in the River" -> "and-the-bags-in-the-river"
 function metacriticSlug(name) {
     return name
-        .normalize('NFD').replace(/[̀-ͯ]/g, '') // Remove accents
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
         .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '') // Remove punctuation
+        .replace(/[^a-z0-9\s-]/g, '')
         .replace(/[\s-]+/g, '-')
         .replace(/^-+|-+$/g, '');
 }
@@ -292,30 +318,36 @@ function metacriticSlug(name) {
 async function fetchWikidata(apiParams) {
     const url = `https://www.wikidata.org/w/api.php?${new URLSearchParams({ ...apiParams, format: 'json', origin: '*' })}`;
     const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
+    if (!response.ok) throw new Error('Network response was not ok');
     return response.json();
 }
 
-// Get Wikidata item ID from TMDB, or find it by IMDb ID
 async function getWikidataId(externalIds) {
     if (externalIds.wikidata_id) return externalIds.wikidata_id;
     if (!externalIds.imdb_id) return null;
-    const data = await fetchWikidata({ action: 'query', list: 'search', srsearch: `haswbstatement:P345=${externalIds.imdb_id}`, srlimit: 1 });
+
+    const data = await fetchWikidata({
+        action: 'query',
+        list: 'search',
+        srsearch: `haswbstatement:P345=${externalIds.imdb_id}`,
+        srlimit: 1
+    });
     const item = data.query && data.query.search[0];
     return item ? item.title : null;
 }
 
-// Get the best ranked value of a Wikidata item property (ignoring deprecated values)
 async function fetchWikidataClaim(entityId, property) {
-    const data = await fetchWikidata({ action: 'wbgetclaims', entity: entityId, property: property });
-    const claims = ((data.claims && data.claims[property]) || []).filter(c => c.rank !== 'deprecated' && c.mainsnak.datavalue);
+    const data = await fetchWikidata({
+        action: 'wbgetclaims',
+        entity: entityId,
+        property: property
+    });
+    const claims = ((data.claims && data.claims[property]) || [])
+        .filter(c => c.rank !== 'deprecated' && c.mainsnak.datavalue);
     const claim = claims.find(c => c.rank === 'preferred') || claims[0];
     return claim ? claim.mainsnak.datavalue.value.replace(/^\/+|\/+$/g, '') : null;
 }
 
-// Fetch the IDs needed for exact review pages. Failed lookups are left out so their links fall back to search.
 async function fetchReviewIds(params, tmdbData) {
     const ids = { wikidata: {} };
 
@@ -336,15 +368,15 @@ async function fetchReviewIds(params, tmdbData) {
     });
 
     const results = await Promise.allSettled([episodeTask, wikidataTask]);
-    results.filter(r => r.status === 'rejected').forEach(r => console.error('Error fetching review IDs:', r.reason));
+    results.filter(r => r.status === 'rejected')
+        .forEach(r => console.error('Error fetching review IDs:', r.reason));
     return ids;
 }
 
-// Build review site links: { url, level }. Level tells which page the link opens (shown in the dropdown).
 function getReviewLinks(params, tmdbData, ids) {
     const query = encodeURIComponent(tmdbData.searchTitle || tmdbData.title);
     const wikidata = ids.wikidata || {};
-    const page = (value, prefix) => value && value.startsWith(prefix) ? value : null; // Ignore paths of the wrong type
+    const page = (value, prefix) => value && value.startsWith(prefix) ? value : null;
     const search = (url) => ({ url: url, level: 'Search' });
     const imdbSearch = search(`https://www.imdb.com/find/?q=${query}`);
     const rottenTomatoesSearch = search(`https://www.rottentomatoes.com/search?search=${query}`);
@@ -356,6 +388,7 @@ function getReviewLinks(params, tmdbData, ids) {
         const rottenTomatoesPage = page(wikidata.rottentomatoes, 'm/');
         const metacriticPage = page(wikidata.metacritic, 'movie/');
         const traktPage = page(wikidata.trakt, 'movies/');
+
         return {
             imdb: imdbId ? { url: `https://www.imdb.com/title/${imdbId}/` } : imdbSearch,
             letterboxd: { url: `https://letterboxd.com/tmdb/${params.id}/` },
@@ -381,6 +414,7 @@ function getReviewLinks(params, tmdbData, ids) {
     } else {
         links.imdb = showImdbId ? { url: `https://www.imdb.com/title/${showImdbId}/`, level: 'Show' } : imdbSearch;
     }
+
     if (!rottenTomatoesPage) {
         links.rottentomatoes = rottenTomatoesSearch;
     } else if (season > 0) {
@@ -388,11 +422,15 @@ function getReviewLinks(params, tmdbData, ids) {
     } else {
         links.rottentomatoes = { url: `https://www.rottentomatoes.com/${rottenTomatoesPage}`, level: 'Show' };
     }
+
     links.serializd = seasonId
         ? { url: `https://www.serializd.com/show/${params.id}/season/${seasonId}/${season}/episode/${episode}`, level: 'Episode' }
         : { url: `https://www.serializd.com/show/${params.id}`, level: 'Show' };
-    // Metacritic episode URLs include the episode name, which only matches TMDB's English name for English shows
-    const metacriticEpisodeSlug = ids.episodeName && tmdbData.originalLanguage === 'en' ? metacriticSlug(ids.episodeName) : '';
+
+    const metacriticEpisodeSlug = ids.episodeName && tmdbData.originalLanguage === 'en'
+        ? metacriticSlug(ids.episodeName)
+        : '';
+
     if (!metacriticPage) {
         links.metacritic = metacriticSearch;
     } else if (season > 0 && metacriticEpisodeSlug) {
@@ -402,6 +440,7 @@ function getReviewLinks(params, tmdbData, ids) {
     } else {
         links.metacritic = { url: `https://www.metacritic.com/${metacriticPage}/`, level: 'Show' };
     }
+
     links.trakt = traktPage
         ? { url: `https://app.trakt.tv/${traktPage}/seasons/${season}/episodes/${episode}`, level: 'Episode' }
         : traktSearch;
@@ -422,7 +461,7 @@ function closeReviewMenu() {
     reviewButton.setAttribute('aria-expanded', 'false');
 }
 
-// Load Review dropdown: show search fallbacks right away, then switch to exact pages once IDs are fetched
+// Load Review dropdown
 async function loadReviewMenu(params, tmdbData) {
     reviewList.innerHTML = reviewSites[params.type].map(site => `
         <li>
@@ -433,42 +472,47 @@ async function loadReviewMenu(params, tmdbData) {
             </a>
         </li>
     `).join('');
+
     updateReviewMenu(getReviewLinks(params, tmdbData, {}));
 
     reviewButton.style.cursor = 'pointer';
     reviewButton.style.visibility = 'visible';
+
     reviewButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        popoverContainer.classList.remove('active'); // Close Episode Selection popover
+        popoverContainer.classList.remove('active');
         const isOpen = reviewContainer.classList.toggle('active');
         reviewButton.setAttribute('aria-expanded', isOpen);
     });
-    // Close dropdown when clicking outside (capture phase, since other buttons stop propagation)
+
     document.addEventListener('click', (e) => {
         if (!reviewContainer.contains(e.target)) {
             closeReviewMenu();
         }
     }, true);
-    // Close dropdown when clicking a site, pressing Escape or clicking into the player iframe
+
     reviewList.addEventListener('click', (e) => {
         if (e.target.closest('a')) {
             closeReviewMenu();
         }
     });
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeReviewMenu();
         }
     });
+
     window.addEventListener('blur', closeReviewMenu);
 
     const ids = await fetchReviewIds(params, tmdbData);
     updateReviewMenu(getReviewLinks(params, tmdbData, ids));
 }
 
-// Initialize popover data
+// Initialize page
 window.onload = async () => {
     const params = getURLParams();
+
     if (!params) {
         window.location.href = "https://github.com/TomasTNunes/TMDB-Player?tab=readme-ov-file#tmdb-player";
         return;
@@ -481,7 +525,7 @@ window.onload = async () => {
             window.location.href = `https://www.themoviedb.org/${params.type}/${params.id}`;
         });
 
-        loadReviewMenu(params, tmdbData); // dont await to not block the page load
+        loadReviewMenu(params, tmdbData);
 
         if (params.type === 'movie') {
             title.innerText = `${tmdbData.title}`;
@@ -490,12 +534,14 @@ window.onload = async () => {
 
             // Next Episode
             const [nextEpS, nextEpE] = getNextEp(params.season, params.episode, tmdbData);
+
             if (nextEpS !== null) {
                 nextEpButton.title = `Next Episode: S${nextEpS} E${nextEpE}`;
                 nextEpButton.style.display = 'flex';
                 nextEpButton.style.cursor = 'pointer';
                 nextEpButton.style.visibility = 'visible';
                 nextEpButton.disabled = false;
+
                 nextEpButton.addEventListener('click', () => {
                     const currentUrl = new URL(window.location.href);
                     currentUrl.searchParams.set('s', nextEpS);
@@ -504,7 +550,7 @@ window.onload = async () => {
                     window.location.href = currentUrl.toString();
                 });
             } else {
-                nextEpButton.title = `No Next Episode`;
+                nextEpButton.title = 'No Next Episode';
                 nextEpButton.style.display = 'flex';
                 nextEpButton.style.visibility = 'visible';
                 nextEpButton.disabled = true;
@@ -516,28 +562,32 @@ window.onload = async () => {
             epSelectButton.style.cursor = 'pointer';
             epSelectButton.style.visibility = 'visible';
             epSelectButton.disabled = false;
-            // Open popover in current season when clicking the button
+
             epSelectButton.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const currentSeasonLi = seasonsList.querySelector(`li[data-season="${params.season}"]`);
+                const currentSeasonLi = seasonsList.querySelector(
+                    `li[data-season="${params.season}"]`
+                );
+
                 if (currentSeasonLi) {
                     currentSeasonLi.click();
                 }
+
                 popoverContainer.classList.toggle('active');
             });
-            // Close popover when clicking outside
+
             document.addEventListener('click', (e) => {
                 if (!popoverContainer.contains(e.target)) {
                     popoverContainer.classList.remove('active');
                     showSeasons(tmdbData.title);
                 }
             });
-            // Show seasons list when click Back Button
-            popoverBackButton.addEventListener('click', (e) => {
+
+            popoverBackButton.addEventListener('click', () => {
                 showSeasons(tmdbData.title);
             });
-            loadPopoverSelectEpisode(params, tmdbData); // dont await to not block the page load
-            
+
+            loadPopoverSelectEpisode(params, tmdbData);
         }
     } catch (error) {
         console.error('Error loading data:', error);
