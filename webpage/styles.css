@@ -1,10 +1,11 @@
+
 /* General Styles */
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #0f0f0f; /* Webpage background color */
-    color: #ffffffe6; /* All font text color */
+    background-color: #0f0f0f;
+    color: #ffffffe6;
 }
 
 /* Content Wrapper */
@@ -12,12 +13,14 @@ body {
     display: flex;
     padding: 24px;
     gap: 24px;
-    height: calc(100vh - 48px); /* Full height minus padding */
+    height: calc(100vh - 48px);
+    box-sizing: border-box;
 }
 
 /* Primary Content */
 .primary-content {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
 }
@@ -30,16 +33,18 @@ body {
     border-radius: 8px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Ensure space between header-buttons and nextep-button */
-    height: 40px; /* Fixed height for player-header */
-    position: relative; /* Anchor for the review menu */
+    justify-content: space-between;
+    height: 40px;
+    position: relative;
+    flex-shrink: 0;
 }
 
 .header-buttons {
     display: flex;
-    flex: 1 1 0; /* Both sides share the free space equally, keeping the title centered */
+    flex: 1 1 0;
     align-items: center;
-    gap: 16px; /* Add some spacing between the buttons */
+    gap: 16px;
+    min-width: 0;
 }
 
 .header-buttons-right {
@@ -53,22 +58,23 @@ body {
 .review-button {
     width: 40px;
     height: 40px;
+    flex-shrink: 0;
     font-size: 13px;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     border: none;
     cursor: pointer;
-    background-color: #000c; /* Button background color */
-    color: #ffffffe6; /* Button text color */
-    border-radius: 20px; /* Added border radius for buttons */
+    background-color: #000c;
+    color: #ffffffe6;
+    border-radius: 20px;
     display: flex;
     align-items: center;
-    justify-content: center; /* Center content horizontally and vertically */
-    transition: background-color 0.2s, transform 0.2s; /* Smooth transitions */
-    text-decoration: none; /* Remove underline from links */
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.2s;
+    text-decoration: none;
 }
 
 .git-button i {
-    font-size: 40px; /* Adjusted GitHub icon size */
+    font-size: 40px;
 }
 
 .bug-button {
@@ -77,20 +83,19 @@ body {
 
 .git-button:hover,
 .bug-button:hover {
-    transform: translateY(-4px); /* Slight upward movement */
+    transform: translateY(-4px);
 }
 
 .show-title {
     flex: 0 1 auto;
     font-size: 20px;
     font-family: 'Ubuntu', 'El Messiri', sans-serif;
-    margin: 0;
+    margin: 0 16px;
     text-align: center;
-    white-space: nowrap; /* Prevents the title from wrapping */
+    white-space: nowrap;
     max-width: 60%;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin: 0 16px; /* Add some margin to prevent overlap */
     cursor: pointer;
 }
 
@@ -106,7 +111,7 @@ body {
 }
 
 .nextep-button {
-    display: none; /* TV only, shown by script */
+    display: none;
 }
 
 .nextep-button svg,
@@ -118,25 +123,25 @@ body {
 }
 
 .review-button svg {
-    width: 34px; /* Star outline reads larger than the filled icons */
+    width: 34px;
     height: 34px;
 }
 
 .nextep-button:hover svg,
 .epselect-button:hover svg,
 .review-button:hover svg {
-    transform: scale(1.3); /* Makes the SVG 20% bigger */
+    transform: scale(1.3);
 }
 
 .nextep-button:disabled,
 .epselect-button:disabled {
-    cursor: not-allowed; /* Change cursor to indicate it's not clickable */
-    opacity: 0.4; /* Optional: Reduce opacity to make it look disabled */
+    cursor: not-allowed;
+    opacity: 0.4;
 }
 
 .nextep-button:disabled svg,
 .epselect-button:disabled svg {
-    transform: scale(1); /* Makes the SVG 20% bigger */
+    transform: scale(1);
 }
 
 /* Player Content */
@@ -144,7 +149,8 @@ body {
     border-radius: 8px;
     overflow: hidden;
     flex: 1;
-    background-color: #1f1f1f; /* Background color for player content */
+    min-height: 0;
+    background-color: #1f1f1f;
 }
 
 #videoFrame {
@@ -155,86 +161,139 @@ body {
 
 /* Secondary Content */
 .secondary-content {
-    width: 400px; /* Adjusted width for secondary-content */
-    overflow: hidden;
-    background-color: transparent; /* Transparent background for secondary-content */
+    width: 0;
+    flex: 0 0 0;
+    overflow: visible;
 }
 
 /* Sidebar */
 .sidebar {
     height: 100%;
-    background-color: #1f1f1f; /* Background color for sidebar */
-    border-radius: 12px; /* Added border radius for sidebar */
+    background-color: transparent;
+    border-radius: 12px;
 }
 
+/* Server Container */
 .servers {
-    padding: 16px;
-    height: 100%;
-    box-sizing: border-box;
-    background-color: transparent; /* Transparent background for movie-servers */
+    padding: 0;
+    height: auto;
+    background-color: transparent;
 }
 
 .servers-title {
-    font-size: 14px;
-    font-family: 'Ubuntu', 'El Messiri', sans-serif;
-    margin: 0 0 16px;
+    display: none;
 }
 
-/* Server Grid */
+/* Hide the old server grid when it is still present */
 .server-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    display: none;
 }
 
-.server-card {
-    height: 62px;
-    padding: 12px;
-    border: 1px solid rgba(255, 255, 255, .05); /* Border color for server-card */
-    border-radius: 8px;
-    background-color: #ffffff05; /* Transparent background for server-card */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    transition: background-color 0.2s, border-color 0.2s, transform 0.2s; /* Smooth transitions */
-}
+/* ========================================
+   Floating Server Menu
+   ======================================== */
 
-.server-card:hover {
-    background: #ffffff0a; 
-    border-color: #ffffff1a; 
-    transform: translateY(-1px); 
-}
-
-.server-card.selected {
-    background: #ffffff0d; 
-    border-color: #ffffff30; 
-}
-
-.server-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.server-name {
-    font-size: 14px;
+.server-menu-wrapper {
+    position: fixed;
+    top: 90px;
+    right: 24px;
+    z-index: 9999;
     font-family: 'Ubuntu', 'El Messiri', sans-serif;
-    color: #ffffffe6; /* Font color for server-name */
 }
 
-.server-label {
-    font-size: 11px;
-    font-family: Arial;
-    margin-top: 3px;
-    color: #ffffffb3; /* Font color for server-label */
+.server-menu-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 175px;
+    padding: 12px 16px;
+    color: #ffffffe6;
+    background: #202020;
+    border: 1px solid #ffffff20;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.server-menu-button:hover {
+    background: #303030;
+    border-color: #ffffff50;
+}
+
+.server-menu-button:focus-visible,
+.server-menu button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+.server-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 200px;
+    max-height: min(70vh, 420px);
+    overflow-y: auto;
+    padding: 6px;
+    background: #202020;
+    border: 1px solid #ffffff20;
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+.server-menu.show {
+    display: block;
+    animation: serverMenuAppear 0.15s ease-out;
+}
+
+.server-menu button {
+    display: block;
+    width: 100%;
+    padding: 11px 12px;
+    color: #eee;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.server-menu button:hover {
+    background: #383838;
+}
+
+.server-menu button:active {
+    background: #454545;
+}
+
+.server-menu-divider {
+    height: 1px;
+    margin: 6px 4px;
+    background: #444;
+}
+
+@keyframes serverMenuAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Popover Styles */
 .popover-container {
     position: relative;
-    display: none; /* TV only, shown by script */
+    display: none;
 }
 
 .popover-content {
@@ -255,7 +314,6 @@ body {
     font-size: 16px;
     font-family: 'Ubuntu', 'El Messiri', sans-serif;
     overflow: hidden;
-    /*border: 1px solid rgba(255, 255, 255, 0.1);*/
 }
 
 .popover-container.active .popover-content {
@@ -263,68 +321,66 @@ body {
     opacity: 0.97;
 }
 
-/* Header */
+/* Popover Header */
 .popover-header {
     display: flex;
     align-items: center;
     padding: 12px 20px;
-    gap: 20px; /* Gap between back button and title */
+    gap: 20px;
     height: 36px;
 }
 
 .popover-back-button {
-    display: none; /* Hidden by default */
+    display: none;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s; /* Smooth transitions */
+    transition: background-color 0.2s, transform 0.2s;
 }
 
 .popover-header-title {
-    flex-grow: 1; /* Allow title to take up remaining space */
+    flex-grow: 1;
     font-size: 18px;
     font-family: 'Ubuntu', 'El Messiri', sans-serif;
     font-weight: bold;
     color: #ffffff;
     overflow: hidden;
-    white-space: nowrap; /* Prevents the title from wrapping */
-    text-overflow: ellipsis; /* Add ellipsis if title is too long */
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .popover-close-button {
     cursor: pointer;
-    margin-left: auto; /* Push close button to the right */
-    transition: background-color 0.2s, transform 0.2s; /* Smooth transitions */
+    margin-left: auto;
+    transition: background-color 0.2s, transform 0.2s;
 }
 
 .popover-back-button:hover svg,
 .popover-close-button:hover svg {
-    transform: scale(1.3); /* Makes the SVG 20% bigger */
+    transform: scale(1.3);
 }
 
-/* List Container */
+/* Episode List */
 .popover-list-container {
-    height: calc(564px - 60px); /* Subtract header height from total height */
-    overflow-y: auto; /* Enable vertical scrolling */
+    height: calc(564px - 60px);
+    overflow-y: auto;
 }
 
-/* Custom Scrollbar */
 .popover-list-container::-webkit-scrollbar {
-    width: 8px; /* Width of the scrollbar */
+    width: 8px;
 }
 
 .popover-list-container::-webkit-scrollbar-track {
-    background: transparent; /* Make the track invisible */
+    background: transparent;
 }
 
 .popover-list-container::-webkit-scrollbar-thumb {
-    background: #444; /* Thumb color */
+    background: #444;
     border-radius: 4px;
 }
 
 .popover-list-container::-webkit-scrollbar-thumb:hover {
-    background: #666; /* Thumb color on hover */
+    background: #666;
 }
 
-/* List Styles */
 .popover-content ul {
     list-style: none;
     padding: 0;
@@ -345,30 +401,30 @@ body {
 
 .season-name,
 .episode-name {
-    display: block; /* Ensures it takes up full width */
-    white-space: nowrap; /* Prevents the title from wrapping */
-    text-overflow: ellipsis; /* Add ellipsis if title is too long */
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     overflow: hidden;
 }
 
 .season-details,
 .episode-details {
-    display: block; /* Ensures it is on a new line */
+    display: block;
     color: #999;
     font-size: 13px;
     margin-top: 2px;
     font-style: italic;
     opacity: 0.8;
-    white-space: nowrap; /* Prevents the title from wrapping */
-    text-overflow: ellipsis; /* Add ellipsis if title is too long */
+    white-space: nowrap;
+    text-overflow: ellipsis;
     overflow: hidden;
 }
 
-/* Review Menu Styles */
+/* Review Menu */
 .review-menu {
     visibility: hidden;
     opacity: 0;
-    position: absolute; /* Positioned relative to player-header, aligned with the episode popover */
+    position: absolute;
     z-index: 2;
     top: calc(100% + 29px);
     right: 13px;
@@ -429,7 +485,7 @@ body {
     flex-grow: 1;
     min-width: 0;
     white-space: nowrap;
-    text-overflow: ellipsis; /* Add ellipsis if name is too long */
+    text-overflow: ellipsis;
     overflow: hidden;
 }
 
@@ -441,43 +497,44 @@ body {
     white-space: nowrap;
 }
 
+/* Tablet and smaller screens */
 @media (max-width: 1200px) {
     body {
-        overflow-y: auto; /* Allow the entire webpage to scroll vertically */
+        overflow-y: auto;
     }
 
     .content-wrapper {
-        flex-direction: column; /* Stack primary and secondary content vertically */
-        gap: 16px; /* Reduce gap between sections */
-        height: auto; /* Allow the content-wrapper to grow based on its content */
+        flex-direction: column;
+        gap: 16px;
+        height: auto;
+        min-height: calc(100vh - 48px);
     }
 
     .primary-content {
-        width: 100%; /* Make primary content take full width */
+        width: 100%;
+        min-height: 60vh;
     }
 
     .secondary-content {
-        width: 100%; /* Make secondary content take full width */
-        height: auto; /* Allow secondary content to grow based on its content */
-        overflow: visible; /* Ensure no internal scrolling */
+        width: 100%;
+        height: auto;
+        overflow: visible;
     }
 
-    .sidebar {
-        height: auto; /* Allow sidebar to grow based on its content */
-    }
-
+    .sidebar,
     .servers {
-        height: auto; /* Allow servers to grow based on its content */
+        height: auto;
     }
 
     .server-grid {
-        height: auto; /* Allow server-grid to grow based on its content */
+        display: none;
     }
 
     .player-content {
         position: relative;
         width: 100%;
-        padding-top: 56.25%; /* 16:9 aspect ratio (9 / 16 = 0.5625 or 56.25%) */
+        padding-top: 56.25%;
+        flex: none;
     }
 
     #videoFrame {
@@ -489,8 +546,18 @@ body {
     }
 }
 
-/* Media Query for screens smaller than 768px */
+/* Mobile */
 @media (max-width: 768px) {
+    .content-wrapper {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .player-header {
+        padding: 8px;
+        gap: 4px;
+    }
+
     .show-title {
         font-size: 16px;
         max-width: 50%;
@@ -506,12 +573,12 @@ body {
     .nextep-button,
     .epselect-button,
     .review-button {
-        width: 32px; /* Smaller buttons leave room for the title */
+        width: 32px;
         height: 32px;
     }
 
     .git-button i {
-        font-size: 30px; /* Adjusted GitHub icon size */
+        font-size: 30px;
     }
 
     .bug-button {
@@ -522,7 +589,6 @@ body {
     .epselect-button svg {
         width: 25px;
         height: 25px;
-        transition: transform 0.2s ease;
     }
 
     .review-button svg {
@@ -530,13 +596,32 @@ body {
         height: 23px;
     }
 
+    .server-menu-wrapper {
+        top: 70px;
+        right: 12px;
+    }
+
+    .server-menu-button {
+        min-width: 155px;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .server-menu {
+        min-width: 175px;
+    }
+
+    .server-menu button {
+        padding: 12px;
+    }
+
     .popover-content {
-        width: 70vw; /* Scales width */
-        height: calc(75vw * (492 / 450)); /* Maintains aspect ratio */
-        right: -39px; /* Keeps a fixed distance from the right side */
-        left: auto; /* Ensures it does not interfere with positioning */
-        transform: none; /* Remove translateX to avoid shifting issues */
-        margin-top: 45px; /* Same vertical position as with 40px buttons */
+        width: 70vw;
+        height: calc(75vw * (492 / 450));
+        right: -39px;
+        left: auto;
+        transform: none;
+        margin-top: 45px;
         font-size: 15px;
     }
 
@@ -564,7 +649,7 @@ body {
     }
 
     .popover-list-container {
-        height: calc(calc(75vw * (492 / 450)) - 36px - 12px - 12px); /* Subtract header height */
+        height: calc(calc(75vw * (492 / 450)) - 60px);
     }
 
     .popover-header-title {
